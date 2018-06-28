@@ -123,16 +123,16 @@ public interface BitcoindRpcClient {
 
     public String address();
 
-    public double amount();
+    public BigDecimal amount();
   }
 
   @SuppressWarnings("serial")
   public static class BasicTxOutput implements TxOutput {
 
     public String address;
-    public double amount;
+    public BigDecimal amount;
 
-    public BasicTxOutput(String address, double amount) {
+    public BasicTxOutput(String address, BigDecimal amount) {
       this.address = address;
       this.amount = amount;
     }
@@ -143,7 +143,7 @@ public interface BitcoindRpcClient {
     }
 
     @Override
-    public double amount() {
+    public BigDecimal amount() {
       return amount;
     }
   }
@@ -206,7 +206,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getbalance">getbalance</a>
    */
-  public double getBalance() throws GenericRpcException;
+  public BigDecimal getBalance() throws GenericRpcException;
 
   /**
    * The getbalance RPC gets the balance in decimal bitcoins across all accounts or for a particular account.
@@ -215,7 +215,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getbalance">getbalance</a>
    */
-  public double getBalance(String account) throws GenericRpcException;
+  public BigDecimal getBalance(String account) throws GenericRpcException;
 
   /**
    * The getbalance RPC gets the balance in decimal bitcoins across all accounts or for a particular account.
@@ -225,7 +225,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getbalance">getbalance</a>
    */
-  public double getBalance(String account, int minConf) throws GenericRpcException;
+  public BigDecimal getBalance(String account, int minConf) throws GenericRpcException;
 
   /**
    * The getinfo RPC prints various information about the node and the network.
@@ -274,7 +274,7 @@ public interface BitcoindRpcClient {
 
     long walletVersion();
 
-    double balance();
+    BigDecimal balance();
 
     int blocks();
 
@@ -284,7 +284,7 @@ public interface BitcoindRpcClient {
 
     String proxy();
 
-    double difficulty();
+    BigDecimal difficulty();
 
     boolean testnet();
 
@@ -292,9 +292,9 @@ public interface BitcoindRpcClient {
 
     long keyPoolSize();
 
-    double payTxFee();
+    BigDecimal payTxFee();
 
-    double relayFee();
+    BigDecimal relayFee();
 
     String errors();
   }
@@ -309,11 +309,11 @@ public interface BitcoindRpcClient {
 
     int currentBlockTx();
 
-    double difficulty();
+    BigDecimal difficulty();
 
     String errors();
 
-    double networkHashps();
+    BigDecimal networkHashps();
 
     int pooledTx();
 
@@ -356,9 +356,9 @@ public interface BitcoindRpcClient {
 
     String bestBlockHash();
 
-    double difficulty();
+    BigDecimal difficulty();
 
-    double verificationProgress();
+    BigDecimal verificationProgress();
 
     String chainWork();
   }
@@ -528,7 +528,7 @@ public interface BitcoindRpcClient {
 
     String bits();
 
-    double difficulty();
+    BigDecimal difficulty();
 
     String previousHash();
 
@@ -710,7 +710,7 @@ public interface BitcoindRpcClient {
 
     interface Out extends Serializable {
 
-      double value();
+      BigDecimal value();
 
       int n();
 
@@ -788,7 +788,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getreceivedbyaddress">getreceivedbyaddress</a>
    */
-  double getReceivedByAddress(String address) throws GenericRpcException;
+  BigDecimal getReceivedByAddress(String address) throws GenericRpcException;
 
   /**
    * The getreceivedbyaddress RPC returns the total amount received by the specified address in transactions with the specified number of confirmations. 
@@ -800,7 +800,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getreceivedbyaddress">getreceivedbyaddress</a>
    */
-  double getReceivedByAddress(String address, int minConf) throws GenericRpcException;
+  BigDecimal getReceivedByAddress(String address, int minConf) throws GenericRpcException;
 
   /**
    * The importprivkey RPC adds a private key to your wallet. 
@@ -887,7 +887,7 @@ public interface BitcoindRpcClient {
 
     String account();
 
-    double amount();
+    BigDecimal amount();
 
     int confirmations();
   }
@@ -932,9 +932,9 @@ public interface BitcoindRpcClient {
 
     String category();
 
-    double amount();
+    BigDecimal amount();
 
-    double fee();
+    BigDecimal fee();
 
     int confirmations();
 
@@ -1042,21 +1042,7 @@ public interface BitcoindRpcClient {
 
   interface Unspent extends TxInput, TxOutput, Serializable {
 
-    @Override
-    String txid();
-
-    @Override
-    int vout();
-
-    @Override
-    String address();
-
     String account();
-
-    String scriptPubKey();
-
-    @Override
-    double amount();
 
     int confirmations();
   }
@@ -1129,7 +1115,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#move">move</a>
    */
-  boolean move(String fromAccount, String toAccount, double amount) throws GenericRpcException;
+  boolean move(String fromAccount, String toAccount, BigDecimal amount) throws GenericRpcException;
 
   /**
    * The move RPC moves a specified amount from one account in your wallet to another using an off-block-chain transaction.
@@ -1141,19 +1127,19 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#move">move</a>
    */
-  boolean move(String fromAccount, String toAccount, double amount, String comment) throws GenericRpcException;
+  boolean move(String fromAccount, String toAccount, BigDecimal amount, String comment) throws GenericRpcException;
 
   /**
    * @see <a href="https://bitcoin.org/en/developer-reference#move">move</a>
    * @deprecated
    */
-  boolean move(String fromAccount, String toAccount, double amount, int minConf) throws GenericRpcException;
+  boolean move(String fromAccount, String toAccount, BigDecimal amount, int minConf) throws GenericRpcException;
 
   /**
    * @see <a href="https://bitcoin.org/en/developer-reference#move">move</a>
    * @deprecated
    */
-  boolean move(String fromAccount, String toAccount, double amount, int minConf, String comment) throws GenericRpcException;
+  boolean move(String fromAccount, String toAccount, BigDecimal amount, int minConf, String comment) throws GenericRpcException;
 
   /**
    * The sendfrom RPC spends an amount from a local account to a bitcoin address.
@@ -1166,7 +1152,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendfrom">sendfrom</a>
    */
-  String sendFrom(String fromAccount, String toAddress, double amount) throws GenericRpcException;
+  String sendFrom(String fromAccount, String toAddress, BigDecimal amount) throws GenericRpcException;
 
   /**
    * The sendfrom RPC spends an amount from a local account to a bitcoin address.
@@ -1180,7 +1166,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendfrom">sendfrom</a>
    */
-  String sendFrom(String fromAccount, String toAddress, double amount, int minConf) throws GenericRpcException;
+  String sendFrom(String fromAccount, String toAddress, BigDecimal amount, int minConf) throws GenericRpcException;
 
   /**
    * The sendfrom RPC spends an amount from a local account to a bitcoin address.
@@ -1195,7 +1181,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendfrom">sendfrom</a>
    */
-  String sendFrom(String fromAccount, String toAddress, double amount, int minConf, String comment) throws GenericRpcException;
+  String sendFrom(String fromAccount, String toAddress, BigDecimal amount, int minConf, String comment) throws GenericRpcException;
 
   /**
    * The sendfrom RPC spends an amount from a local account to a bitcoin address.
@@ -1211,7 +1197,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendfrom">sendfrom</a>
    */
-  String sendFrom(String fromAccount, String toAddress, double amount, int minConf, String comment, String commentTo) throws GenericRpcException;
+  String sendFrom(String fromAccount, String toAddress, BigDecimal amount, int minConf, String comment, String commentTo) throws GenericRpcException;
 
   /**
    * The sendrawtransaction RPC validates a transaction and broadcasts it to the peer-to-peer network.
@@ -1234,7 +1220,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendtoaddress">sendtoaddress</a>
    */
-  String sendToAddress(String toAddress, double amount) throws GenericRpcException;
+  String sendToAddress(String toAddress, BigDecimal amount) throws GenericRpcException;
 
   /**
    * The sendtoaddress RPC spends an amount to a given address.
@@ -1247,7 +1233,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendtoaddress">sendtoaddress</a>
    */
-  String sendToAddress(String toAddress, double amount, String comment) throws GenericRpcException;
+  String sendToAddress(String toAddress, BigDecimal amount, String comment) throws GenericRpcException;
 
   /**
    * The sendtoaddress RPC spends an amount to a given address.
@@ -1261,7 +1247,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#sendtoaddress">sendtoaddress</a>
    */
-  String sendToAddress(String toAddress, double amount, String comment, String commentTo) throws GenericRpcException;
+  String sendToAddress(String toAddress, BigDecimal amount, String comment, String commentTo) throws GenericRpcException;
 
   /**
    * The signrawtransaction RPC signs a transaction in the serialized transaction format using private keys stored in the wallet or provided in the call.
@@ -1348,7 +1334,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#estimatefee">estimatefee</a>
    */
-  double getEstimateFee(int nBlocks) throws GenericRpcException;
+  BigDecimal getEstimateFee(int nBlocks) throws GenericRpcException;
 
   /**
    * The estimatepriority RPC estimates the priority (coin age) that a transaction needs in order to be included within a certain number of blocks as a free high-priority transaction. 
@@ -1360,7 +1346,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#estimatepriority">estimatepriority</a>
    */
-  double getEstimatePriority(int nBlocks) throws GenericRpcException;
+  BigDecimal getEstimatePriority(int nBlocks) throws GenericRpcException;
 
   /**
    * Permanently marks a block as invalid, as if it violated a consensus rule.
@@ -1403,7 +1389,7 @@ public interface BitcoindRpcClient {
 
     int getTimeOffset();
 
-    double getPingTime();
+    BigDecimal getPingTime();
 
     long getVersion();
 
@@ -1463,7 +1449,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getunconfirmedbalance">getunconfirmedbalance</a>
    */
-  double getUnconfirmedBalance();
+  BigDecimal getUnconfirmedBalance();
 
   /**
    * The getdifficulty RPC
@@ -1472,7 +1458,7 @@ public interface BitcoindRpcClient {
    * 
    * @see <a href="https://bitcoin.org/en/developer-reference#getdifficulty">getdifficulty</a>
    */
-  double getDifficulty();
+  BigDecimal getDifficulty();
 
   /**
    * The ping RPC sends a P2P ping message to all connected nodes to measure ping time. 
@@ -1517,7 +1503,7 @@ public interface BitcoindRpcClient {
    * 
    * [TODO] Add parameters blocks, height
    */
-  double getNetworkHashPs();
+  BigDecimal getNetworkHashPs();
 
   /**
    * The settxfee RPC sets the transaction fee per kilobyte paid by transactions created by this wallet.
@@ -1705,7 +1691,7 @@ public interface BitcoindRpcClient {
 
   static interface SmartFeeResult extends Serializable {
 
-    double feeRate();
+    BigDecimal feeRate();
 
     int blocks();
   }

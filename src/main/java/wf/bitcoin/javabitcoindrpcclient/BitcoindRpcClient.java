@@ -495,6 +495,13 @@ public interface BitcoindRpcClient {
     String connected();
   }
 
+  static interface LockedUnspent extends Serializable {
+  
+    String txId();
+    
+    int vout();
+  }
+  
   static interface TxOut extends Serializable {
 
     String bestBlock();
@@ -902,6 +909,13 @@ public interface BitcoindRpcClient {
     int confirmations();
   }
 
+  /**
+   * The listlockunspent RPC returns a list of temporarily unspendable (locked) outputs.
+   * 
+   * @see <a href="https://bitcoin.org/en/developer-reference#listlockunspent">listlockunspent</a>
+   */
+  List<LockedUnspent> listLockUnspent();
+  
   /**
    * The listreceivedbyaddress RPC lists the total number of bitcoins received by each address.
    * 
